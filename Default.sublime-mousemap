@@ -1,0 +1,8 @@
+[
+  // {
+  //   "button": "button1", "count": 2, "modifiers": [],
+  //   "press_command": "typescript_build_click",
+  //   "context": [ { "key": "selector", "operator": "equal", "operand": "source.ts" } ]
+  //   // "press_args": {"command": "drag_select", "args": {"additive": true}}
+  // },
+]

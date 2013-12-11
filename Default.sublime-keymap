@@ -1,0 +1,14 @@
+[
+    // {
+    //     "command": "typescript_complete",
+    //     "args": {"characters": "."},
+    //     "keys": ["."],
+    //     "context": [ { "key": "selector", "operator": "equal", "operand": "source.ts" } ]
+    // }
+    // {
+    //     "command": "typescript_complete",
+    //     "args": {"characters": ""},
+    //     "keys": ["ctrl+space"],
+    //     "context": [ {"key": "typescript"} ]
+    // }
+]

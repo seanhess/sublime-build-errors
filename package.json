@@ -1,0 +1,27 @@
+{
+  "name": "sublime-typescript-simple",
+  "version": "0.0.0",
+  "description": "A simplified sublime typescript plugin.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "typescript": "~0.9.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/seanhess/sublime-typescript-simple.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/seanhess/sublime-typescript-simple/issues"
+  }
+}
