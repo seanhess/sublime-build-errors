@@ -29,20 +29,16 @@ Configuration
 
 By default, this plugin will compile files you open one at a time, displaying errors in each one. To better display errors for a whole project, you need to tell this plugin about your project. 
 
-First, you need a sublime project. Make one, then open the sublime project file and edit these settings:
+First, you need a sublime project. Make one, then open the sublime project file and edit the settings.
 
-```
-{
-    "settings":
-    {
-        // this file will be built every time in addition to the open file
-        "typescript_main": "public/app.ts",
+This will sepecify a typescript file that should be checked along with any open file. Set this to your root file. 
 
-        // use this build command instead of tsc. It must output typescript errors!
-        "typescript_build": "grunt typescript:app",
-    }       
-}
-```
+    "typescript_main": "public/app.ts",
+
+
+Alternatively, you can override the whole build command with any command that outputs the same thing as tsc
+
+    "typescript_build": "grunt typescript:app",
 
 [t3s]: https://github.com/Railk/T3S
 [tss]: https://github.com/clausreinke/typescript-tools

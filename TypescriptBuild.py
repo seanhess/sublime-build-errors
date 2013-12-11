@@ -72,6 +72,8 @@ class TypescriptBuild(WindowCommand):
         file = view.file_name()
         files = [file]
 
+        print("OK HENRY", main_file, file)
+
         if main_file:
             view.erase_status("typescript-warning")
             files.append(main_file)
@@ -222,7 +224,10 @@ class TypescriptEventListener(EventListener):
         render_errors(view, error_list.by_view(view))
 
         # Maybe I should run the build here too! It's safer at least :)
-        sublime.active_window().run_command("typescript_build", {})
+        # only if it is not currently showing errors... 
+        view_errors = error_list.by_view(view)
+        if not len(view_errors):
+            sublime.active_window().run_command("typescript_build", {})
 
     def on_post_save_async(self, view):
         if not is_typescript(view): return
@@ -325,9 +330,14 @@ def project_main(view):
     if not view.window().project_data(): return None
     if not ("typescript_main" in view.window().project_data()): 
         return None
-    return view.window().project_data()["typescript_main"]
+    relative_main = view.window().project_data()["typescript_main"]
+    return os.path.join(active_window_root_folder(), relative_main)
 
 def active_window_root_folder():
+    window = sublime.active_window()
+    project_file = window.project_file_name()
+    if project_file: return os.path.dirname(project_file)
+
     open_folders = sublime.active_window().folders()
     if (len(open_folders) > 0):
         return open_folders[0]
