@@ -1,5 +1,7 @@
 A simplified sublime typescript plugin. 
 
+![Screenshot](http://i.imgur.com/PHG6v39.png)
+
 Motivation
 ----------
 

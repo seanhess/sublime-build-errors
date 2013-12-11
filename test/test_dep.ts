@@ -6,7 +6,7 @@ class C1 {
 	private privProp = 0;
 	public testMeth() {
 		this.pubMeth()
-		return this;
+		return that;
 	}
 	public testMeth2(a : number, b : number) {
 		return a - b;

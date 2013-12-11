@@ -15,5 +15,7 @@ var v = new C1();
 var a = v.testMeth2(12, 15);
 var t = new Test();
 v.pubMeth();
-v.testMeth();
+v.badMethod();
 var v2 = new C1();
+
+var henry = 33;

@@ -13,5 +13,7 @@ var v : C1 = new C1();
 var a : number = v.testMeth2(12, 15);
 var t : Test = new Test();
 v.pubMeth();
-v.testMeth();
+v.badMethod();
 var v2 : C1 = new C1();
+
+var henry:string = 33

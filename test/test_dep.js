@@ -11,7 +11,7 @@ var C1 = (function () {
 
     C1.prototype.testMeth = function () {
         this.pubMeth();
-        return this;
+        return that;
     };
     C1.prototype.testMeth2 = function (a, b) {
         return a - b;
