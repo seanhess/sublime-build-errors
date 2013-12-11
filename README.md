@@ -9,6 +9,8 @@ Motivation
 
 This approach runs the normal TSC compiler, or whatever build you already have configured for your project. It displays the errors from your build in the window and in a panel at the bottom. 
 
+Features
+
 - Syntax Highlighting
 - Error Highlighting
 - Build on save
@@ -33,12 +35,11 @@ Configuration
 
 By default, this plugin will compile files you open one at a time, displaying errors in each one. To better display errors for a whole project, you need to tell this plugin about your project. 
 
-First, you need a sublime project. Make one, then open the sublime project file and edit the settings.
+First, you need a sublime project. [Make one](http://www.sublimetext.com/forum/viewtopic.php?f=3&t=8694), open the project, then open the project file (Project -> Edit Project) to edit the settings.
 
 This will sepecify a typescript file that should be checked along with any open file. Set this to your root file. 
 
     "typescript_main": "public/app.ts",
-
 
 Alternatively, you can override the whole build command with any command that outputs the same thing as tsc
 
