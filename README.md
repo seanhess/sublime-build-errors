@@ -7,12 +7,14 @@ Motivation
 
 [Other sublime typescript plugin][t3s]s use a [subprocess][tss] that checks for errors. This subprocess is slow, error-prone, and doesn't necessarily reflect the errors reported by the real compiler. These will be fixed at some point, but I need a reliable typescript plugin now. 
 
-This approach will not support autocomplete, but it will make you more productive :) It supports the following features:
+This approach runs the normal TSC compiler, or whatever build you already have configured for your project. It displays the errors from your build in the window and in a panel at the bottom. 
 
 - Syntax Highlighting
 - Error Highlighting
 - Build on save
 - Error Window
+
+Limitations: we cannot support autocompletion, rafactoring, or other fancy IDE features with this simple approach. 
 
 Installation
 ------------
