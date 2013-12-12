@@ -44,12 +44,43 @@ def find_error(errors, line, file):
             return error
     return None
 
+
+
+class BuilderSubprocess(object):
+    def __init__(self):
+        self.process = None
+        self.lines = []
+        self.thread = None
+
+    def build(self, command, cb):
+
+        def run():
+            print("BUILDER - start")
+            (stdout, stderr) = self.process.communicate()
+            if not self.process: return
+            self.process = None
+            self.lines = stdout.decode('UTF-8').split("\n")
+            cb(self.lines)
+
+        kwargs = {}
+        self.process = Popen(command, stdin=PIPE, stdout=PIPE, stderr=STDOUT, **kwargs)
+        thread = Thread(target=run)
+        thread.daemon = True
+        thread.start()
+        self.thread = thread
+        
+    def stop(self):
+        if not self.process: return
+        self.process.kill()
+        self.process = None
+
 class TypescriptBuild(WindowCommand):
 
     def __init__(self, window):
         WindowCommand.__init__(self, window)
         self.build_errors_by_file = {}
         self.build_errors = []
+        self.active_builder = None
 
     def run(self):
         self.build_errors_by_file = {}
@@ -59,42 +90,53 @@ class TypescriptBuild(WindowCommand):
         if not view: 
             return
 
-        # they should be relative to the project
-
-        thread = Thread(target=lambda: self.build(view))
-        thread.daemon = True
-        thread.start()
+        self.build(view)
 
     def build(self, view):
-
         root_folder = active_window_root_folder()
         main_file = project_main(view)
         file = view.file_name()
         files = [file]
-
-        print("OK HENRY", main_file, file)
+        rel_files = list(map(lambda f: os.path.relpath(f, root_folder), files))
 
         if main_file:
             view.erase_status("typescript-warning")
             files.append(main_file)
         else:
-            view.set_status("typescript-warning", "WARNING: set 'typescript_main' in your project settings. See README")
-            
+            view.set_status("typescript-warning", "TS WARNING: set 'typescript_main' in your project settings. See README")
 
-        rel_file = os.path.relpath(file, root_folder)
+        self.stop_active_builder()
 
-        view.set_status("typescript", "TS BUILD [ " + rel_file + " ]")
-
-        kwargs = {}
-        # this is the default, but you can override the path
-        print("FILES", files)
         command = ["node", LOCAL_TSC_PATH, "-m", "commonjs"] + files
-        process = Popen(command, stdin=PIPE, stdout=PIPE, stderr=STDOUT, **kwargs)
-        (stdout, stderr) = process.communicate()
+        self.active_builder = BuilderSubprocess()
+        self.active_builder.build(command, lambda lines: self.render_lines(view, lines))
+        
+        self.building(view, rel_files, self.active_builder)
 
+    def stop_active_builder(self):
+        if self.active_builder:
+            self.active_builder.stop()
+        self.active_builder = None
+        
+
+    def building(self, view, files, builder, i=0, dir=1):
+
+        if builder != self.active_builder: return
+        
+        before = i % 8
+        after = (7) - before
+        if not after:
+            dir = -1
+        if not before:
+            dir = 1
+        i += dir
+        view.set_status("typescript", "[%s=%s] TS BUILDING [%s]" % (' '*before, ' '*after, ' '.join(files)))
+        
+        sublime.set_timeout(lambda: self.building(view, files, builder, i, dir), 100)
+
+    def render_lines(self, view, lines):
+        self.active_builder = None
         self.output_create()
-
-        lines = stdout.decode('UTF-8').split("\n")
         error_list = windows.errors_for_view(view)
         (all_errors, extra_lines) = self.parse_errors(lines)
         error_list.set_errors(all_errors)
@@ -108,12 +150,10 @@ class TypescriptBuild(WindowCommand):
             self.output_close()
             
         else:
-            view.set_status("typescript", " TS ERRORS [ {0} ] ".format(error_list.count))
+            view.set_status("typescript", " TS ERRORS [{0}] ".format(error_list.count))
             self.render_output(error_list)
 
         render_errors(view, error_list.by_view(view))
-
-
 
 
     def render_output(self, error_list):
@@ -123,14 +163,6 @@ class TypescriptBuild(WindowCommand):
         for line in error_list.extra_lines:
             self.output_append(line + "\n")
     
-        # for file in error_list.files():
-        #     errors = error_list.by_file(file)
-        #     relative_path = os.path.relpath(file, root_folder)
-        #     self.output_append(" {0} \n".format(relative_path))
-        #     for error in errors:
-        #         self.output_append("  Line {0}: {1}\n".format(error.start.line, error.text))
-        #     self.output_append("\n")  
-
         regions = []
         for file in error_list.files():
             errors = error_list.by_file(file)
@@ -233,6 +265,7 @@ class TypescriptEventListener(EventListener):
         if not is_typescript(view): return
         sublime.active_window().run_command("typescript_build", {})
  
+
 
 
 class SubtypeErrorsListener(EventListener):

@@ -18,4 +18,4 @@ v.pubMeth();
 v.badMethod();
 var v2 = new C1();
 
-var henry = 33;
+var henry = "hello";

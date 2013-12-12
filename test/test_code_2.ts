@@ -16,4 +16,4 @@ v.pubMeth();
 v.badMethod();
 var v2 : C1 = new C1();
 
-var henry:string = 33
+var henry:string = "hello"

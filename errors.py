@@ -14,6 +14,7 @@ class TypescriptWindowManager(object):
         return self.errors_for_window(view.window())
 
     def errors_for_window(self, window):
+        if not window: return None
         window_id = str(window.id())
 
         if not (window_id in self.errors):

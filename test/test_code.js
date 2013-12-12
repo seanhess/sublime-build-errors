@@ -3,25 +3,25 @@ var Foo;
     var testing = "";
 })(Foo || (Foo = {}));
 
-var C1 = (function () {
-    function C1() {
+var C2 = (function () {
+    function C2() {
         this.pubProp = 0;
         this.privProp = 0;
     }
-    C1.prototype.pubMeth = function () {
+    C2.prototype.pubMeth = function () {
         this.pubMeth();
     };
-    C1.prototype.privMeth = function () {
+    C2.prototype.privMeth = function () {
     };
 
-    C1.prototype.testMeth = function () {
+    C2.prototype.testMeth = function () {
         this.pubMeth();
         return this;
     };
-    return C1;
+    return C2;
 })();
 
-var f = new C1();
+var f = new C2();
 f.pubMeth(); // test on F.
 
 var M;

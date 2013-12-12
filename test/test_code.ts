@@ -2,7 +2,7 @@ module Foo {
 	var testing = ""; 
 }
 
-class C1 {
+class C2 {
 	public pubMeth() {this.pubMeth();} // test on 'this.'
 	private privMeth() {}
 	public pubProp = 0;
@@ -13,7 +13,7 @@ class C1 {
 	}
 }
 
-var f = new C1();
+var f = new C2();
 f.pubMeth(); // test on F.
 
 module M {
