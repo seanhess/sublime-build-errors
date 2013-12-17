@@ -104,7 +104,7 @@ class TypescriptBuild(WindowCommand):
             view.erase_status("typescript-warning")
             files.append(main_file)
         else:
-            view.set_status("typescript-warning", "TS WARNING: set 'typescript_main' in your project settings. See README")
+            view.set_status("typescript-warning", "TS WARNING: set 'typescript_main' in your project settings. See https://github.com/seanhess/sublime-typescript-simple")
 
         self.stop_active_builder()
 
@@ -254,21 +254,18 @@ class TypescriptEventListener(EventListener):
 
     # called whenever a veiw is focused
     def on_activated_async(self,view): 
-        if not is_typescript(view): 
-            self.current_view = None
-            return
-        
-        self.current_view = view
-
+        if not is_typescript(view): return
         error_list = windows.errors_for_view(view)
         if error_list:
             view_errors = error_list.by_view(view)
             render_errors(view, view_errors)
 
-            # Maybe I should run the build here too! It's safer at least :)
-            # only if it is not currently showing errors... 
-            if not len(view_errors):
-                sublime.active_window().run_command("typescript_build", {})
+    def on_load_async(self, view):
+        if not is_typescript(view): return
+        error_list = windows.errors_for_view(view)
+        if error_list:
+            sublime.active_window().run_command("typescript_build", {})
+
 
     def on_post_save_async(self, view):
         if not is_typescript(view): return

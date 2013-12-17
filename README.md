@@ -21,14 +21,20 @@ Limitations: we cannot support autocompletion, rafactoring, or other fancy IDE f
 Installation
 ------------
 
-Install this Package (Terminal)
-
-```
-cd your/sublime/packages/folder
-git clone http://github.com/seanhess/sublime-typescript-simple
-```
-
 Install [NodeJS](http://nodejs.org)
+
+Go to your packages folder in Terminal. 
+
+    cd Library/Application Support/Sublime Text 3/Packages
+
+Clone this repository into that folder
+
+    git clone http://github.com/seanhess/sublime-typescript-simple
+
+Install the dependencies
+
+    cd sublime-typescript-simple
+    npm install
 
 Configuration
 -------------
@@ -44,6 +50,13 @@ This will sepecify a typescript file that should be checked along with any open 
 Alternatively, you can override the whole build command with any command that outputs the same thing as tsc
 
     "typescript_build": "grunt typescript:app",
+
+
+Todo
+-----
+
+- warning: change to url of readme
+- automatically install on clone?
 
 [t3s]: https://github.com/Railk/T3S
 [tss]: https://github.com/clausreinke/typescript-tools
