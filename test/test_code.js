@@ -22,7 +22,7 @@ var C2 = (function () {
 })();
 
 var f = new C2();
-f.pubMeth(); // test on F.
+f.pubMeth();
 
 var M;
 (function (M) {

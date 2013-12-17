@@ -96,19 +96,21 @@ class TypescriptBuild(WindowCommand):
         self.build(view)
 
     def build(self, view):
-        main_file = project_main(view)
+        main_files = project_main_files(view)
         file = view.file_name()
         files = [file]
 
-        if main_file:
+        if main_files:
             view.erase_status("typescript-warning")
-            files.append(main_file)
+            files = files + main_files
         else:
             view.set_status("typescript-warning", "TS WARNING: set 'typescript_main' in your project settings. See https://github.com/seanhess/sublime-typescript-simple")
 
         self.stop_active_builder()
 
+        print("FILES", files)
         command = [LOCAL_TSC_PATH, "-m", "commonjs"] + files
+        print("COMMAND", command)
         self.active_builder = BuilderSubprocess()
         self.active_builder.build(command, lambda lines: self.render_lines(view, lines, files))
         
@@ -365,12 +367,14 @@ def relative_file_paths(window, files):
     abs_files = list(map(lambda f: relative_file_path(project_file, f), files))
     return abs_files
 
-def project_main(view):
+def project_main_files(view):
     if not view.window().project_data(): return None
     if not ("typescript_main" in view.window().project_data()): 
         return None
-    relative_main = view.window().project_data()["typescript_main"]
-    return os.path.join(active_window_root_folder(), relative_main)
+    relative_files = view.window().project_data()["typescript_main"]
+    if isinstance(relative_files, str):
+        return None
+    return list(map(lambda f: os.path.join(active_window_root_folder(),f), relative_files))
 
 def active_window_root_folder():
     window = sublime.active_window()
