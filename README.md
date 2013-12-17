@@ -52,12 +52,6 @@ Alternatively, you can override the whole build command with any command that ou
     "typescript_build": "grunt typescript:app",
 
 
-Todo
------
-
-- warning: change to url of readme
-- automatically install on clone?
-
 [t3s]: https://github.com/Railk/T3S
 [tss]: https://github.com/clausreinke/typescript-tools
 [simple]: github.com/seanhess/sublime-typescript-simple
