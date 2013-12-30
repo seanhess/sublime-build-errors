@@ -8,10 +8,8 @@ from .be_command import BuilderProcess
 
 running_process = None
 
-# I need a way to stop all existing window commands!
-# like a global variable thing
-# but it won't automatically unload ones when the plugin reloads :(
-# I just lose references to them
+
+# TODO: need a way to parse the lines and look for errors
 
 class BuildErrorsRunCommand(WindowCommand):
 
@@ -42,6 +40,8 @@ class BuildErrorsRunCommand(WindowCommand):
         windows.settings_for_window(self.window).panel = self.full_output
 
     def on_build_line(self, line):
+
+        # Better Parsing!?
         line = line.replace("", "") # Terminal bell. I could play a sound or something?
         line = line.replace("[39m", "")  # End of color
         line = line.replace("[32m", " √ ") # Green
