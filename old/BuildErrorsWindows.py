@@ -3,7 +3,7 @@ import sublime
 import sublime_plugin
 from sublime_plugin import TextCommand, EventListener, WindowCommand
 
-class TypescriptWindowManager(object):
+class WindowManager(object):
 
     def __init__(self):
         self.errors = {}
@@ -71,4 +71,4 @@ def active_window_root_folder():
         return ""
 
 
-windows = TypescriptWindowManager()
+windows = WindowManager()

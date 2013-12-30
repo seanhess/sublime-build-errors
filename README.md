@@ -1,57 +1,32 @@
-A simplified sublime typescript plugin. 
+- Allows you to run any terminal command in a panel. 
+- Displays the full output, 
+- Displays a list of the errors found
+- Highlight errors inline
 
-![Screenshot](http://i.imgur.com/PHG6v39.png)
+TODO
+----
 
-Motivation
-----------
+- specify a command to run
+- show the full output of the command in a window
+- show/hide the window
 
-[Other sublime typescript plugin][t3s]s use a [subprocess][tss] that checks for errors. This subprocess is slow, error-prone, and doesn't necessarily reflect the errors reported by the real compiler. These will be fixed at some point, but I need a reliable typescript plugin now. 
+"no way to intercept a real build script"
+- set the command to run / run it in project settings
+- sublime command: run/restart the build. + key stroke
+- sublime command: show the full output
+- automatically show the errors 
+- sublime to re-show the current error output
 
-This approach runs the normal TSC compiler, or whatever build you already have configured for your project. It displays the errors from your build in the window and in a panel at the bottom. 
+- ability to set the command to run for the build (a build script?)
+- run it.. when? when you hit build?
+- there's no way to intercept the actual build scrope
 
-Features
+Now here's the issue. When they save a file, it might update again.
 
-- Syntax Highlighting
-- Error Highlighting
-- Build on save
-- Error Window
+Simplish: start the build, grab all errors on DONE, then show again
+Harder: wait for the build to "stabilize", then show errors
+    - if there is no output for 500 ms?... eh... not really
+    - on save, reset
+    - wait... stuff .... wait  wait ... stuff
+    - each time "stuff" is hit, then erase the window and show errors?
 
-Limitations: we cannot support autocompletion, rafactoring, or other fancy IDE features with this simple approach. 
-
-Installation
-------------
-
-Install [NodeJS](http://nodejs.org)
-
-Go to your packages folder in Terminal. 
-
-    cd Library/Application Support/Sublime Text 3/Packages
-
-Clone this repository into that folder
-
-    git clone http://github.com/seanhess/sublime-typescript-simple
-
-Install the dependencies
-
-    cd sublime-typescript-simple
-    npm install
-
-Configuration
--------------
-
-By default, this plugin will compile files you open one at a time, displaying errors in each one. To better display errors for a whole project, you need to tell this plugin about your project. 
-
-First, you need a sublime project. [Make one](http://www.sublimetext.com/forum/viewtopic.php?f=3&t=8694), open the project, then open the project file (Project -> Edit Project) to edit the settings.
-
-This will sepecify a typescript file that should be checked along with any open file. Set this to your root file. 
-
-    "typescript_main": "public/app.ts",
-
-Alternatively, you can override the whole build command with any command that outputs the same thing as tsc
-
-    "typescript_build": "grunt typescript:app",
-
-
-[t3s]: https://github.com/Railk/T3S
-[tss]: https://github.com/clausreinke/typescript-tools
-[simple]: github.com/seanhess/sublime-typescript-simple

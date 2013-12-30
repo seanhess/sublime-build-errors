@@ -1,26 +1,20 @@
 {
-  "name": "sublime-typescript-simple",
+  "name": "sublime-build-errors",
   "version": "0.0.0",
-  "description": "A simplified sublime typescript plugin.",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "dependencies": {
-    
-  },
+  "description": "Display build errors in sublime",
+  "dependencies": {},
   "devDependencies": {
-    "typescript": "~0.9.1-1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "grunt": "~0.4.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-exec": "~0.4.3"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/seanhess/sublime-typescript-simple.git"
   },
-  "author": "",
-  "license": "BSD-2-Clause",
+  "author": "Sean Hess",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/seanhess/sublime-typescript-simple/issues"
   }

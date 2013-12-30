@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>comment</key>
-    <string>TypeScript Build Output</string>
+    <string>TypeScript Build Errors</string>
     <key>name</key>
-    <string>TypeScript Build Output</string>
+    <string>TypeScript Build Errors</string>
     <key>patterns</key>
     <array>
 <!--         <dict>
@@ -53,6 +53,6 @@
         </dict>      
     </array>    
     <key>scopeName</key>
-    <string>source.tsfat</string>
+    <string>source.build_errors</string>
 </dict>
 </plist>

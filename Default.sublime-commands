@@ -1,20 +1,11 @@
 [
-    // {
-    //     "caption": "Typescript: Show Indexed Files",
-    //     "command": "typescript_show_files",
-    // },
-    // {
-    //     "caption": "Typescript: Start Here",
-    //     "command": "typescript_start",
-    // },
-    // {
-    //     "caption": "Typescript: Reload",
-    //     "command": "typescript_start",
-    // },
-    // {
-    //     "caption": "Typescript: Complete",
-    //     "command": "typescript_complete",
-    //     "args": {"characters": ""},
-    // },
+    {
+        "caption": "BuildErrors: Run Command",
+        "command": "build_errors_run",
+    },
 
+    {
+        "caption": "BuildErrors: Stop Running Command",
+        "command": "build_errors_stop",
+    },
 ]
