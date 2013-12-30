@@ -34,11 +34,12 @@ class BuildErrorsRunCommand(WindowCommand):
     def run_command(self, command):
         global running_process
         stop_running_process()
-        process = BuilderProcess(command, active_window_root_folder(), self.on_build_line)
+        process = BuilderProcess(command, active_window_root_folder(), self.on_build_line, self.on_build_exit)
         process.run()
         running_process = process
         self.full_output = OutputPanel(self.window, "be_full_output")
         self.full_output.show()
+        windows.settings_for_window(self.window).panel = self.full_output
 
     def on_build_line(self, line):
         line = line.replace("", "") # Terminal bell. I could play a sound or something?
@@ -54,25 +55,19 @@ class BuildErrorsRunCommand(WindowCommand):
         print("-:", line)
         self.full_output.write(line+"\n")
 
+    def on_build_exit(self):
+        self.full_output.write("\nEXITED\n")
+
 
 class BuildErrorsStopCommand(WindowCommand):
     def run(self):
         stop_running_process()
 
 
-
-# # Running "watch" task
-# Waiting...•OK
-# >> File "test/test.ts" changed.
-
-# # Running "exec:compile" (exec) task
-# !>> /Users/seanhess/projects/sublime-build-errors/test/test.ts(1,5):
-# !>> error TS2011: Cannot convert 'number' to 'string'.
-# !>> Exited with code: 1.
-# !Warning: Task "exec:compile" failed. Use --force to continue.•
-
-# !Aborted due to warnings.•
-# Completed in 1.885s at Mon Dec 30 2013 15:10:41 GMT-0700 (MST)• - Waiting...
+class BuildErrorsShowOutput(WindowCommand):
+    def run(self):
+        panel = windows.settings_for_window(self.window).panel
+        panel.show()
 
 
 class OutputPanel(object):

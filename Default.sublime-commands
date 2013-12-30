@@ -5,7 +5,18 @@
     },
 
     {
+        "caption": "BuildErrors: Show Errors",
+        "command": "build_errors_show_errors",
+    },
+
+    {
         "caption": "BuildErrors: Stop Running Command",
         "command": "build_errors_stop",
     },
+
+    {
+        "caption": "BuildErrors: Show Raw Output",
+        "command": "build_errors_show_output",
+    },
+
 ]

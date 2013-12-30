@@ -13,7 +13,7 @@ class WindowManager(object):
         if not window: return None
         window_id = str(window.id())
 
-        if not (window_id in self.errors):
+        if not (window_id in self.settings):
             self.settings[window_id] = Settings()
 
         return self.settings[window_id]
@@ -25,5 +25,6 @@ class WindowManager(object):
 class Settings(object):
     def __init__(self):
         self.command = None
+        self.panel = None
 
 windows = WindowManager()

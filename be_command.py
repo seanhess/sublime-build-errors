@@ -6,11 +6,12 @@ from subprocess import Popen, PIPE, STDOUT
 # so it needs to be on its own thread thing
 
 class BuilderProcess(object):
-    def __init__(self, command, cwd, on_line):
+    def __init__(self, command, cwd, on_line, on_exit):
         self.process = None
         self.thread = None
         self.args = command.split()
         self.on_line = on_line
+        self.on_exit = on_exit
         self.cwd = cwd
 
     def run(self):
@@ -28,12 +29,12 @@ class BuilderProcess(object):
             line = self.process.stdout.readline().decode('UTF-8').rstrip()
             self.on_line(line)
 
-        print("!!! EXITING")
-        self.process = None
+        self.stopped()
 
     def stop(self):
-        print("!!! STOPPING")
         if not self.process: return
-        print("!!! STOPPED")
         self.process.kill()
+
+    def stopped(self):
         self.process = None
+        self.on_exit()
