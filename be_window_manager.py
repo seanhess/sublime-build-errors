@@ -1,4 +1,5 @@
 
+from .be_errors import ErrorParser
 
 # Separate Settings Per Window
 class WindowManager(object):
@@ -26,5 +27,6 @@ class Settings(object):
     def __init__(self):
         self.command = None
         self.panel = None
+        self.errors = ErrorParser()
 
 windows = WindowManager()
