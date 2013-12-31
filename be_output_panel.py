@@ -19,3 +19,6 @@ class OutputPanel(object):
         self.panel.set_read_only(False)
         self.panel.run_command('append', {'characters': characters})
         self.panel.set_read_only(True)
+
+    def size(self):
+        return self.panel.size()

@@ -1,11 +1,11 @@
 var henry:string = 33
-var bobby = new Hormelkjslkdjlksjdflskjse()
+var bobby = new hormelkjslkdjlksjdflskjse()
 
-interface Something {
+interface something {
     one(a:number, b:number);
 }
 
-var something:Something = {
+var something:something = {
     one: function(a:number, b:string) {
         
     }

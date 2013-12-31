@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         },
 
         exec: {
-            compile: { cmd: 'tsc "test/te st.ts" -m commonjs'},
+            compile: { cmd: 'tsc "test/test.ts" -m commonjs'},
         }
     });
 

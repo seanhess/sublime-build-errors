@@ -344,12 +344,14 @@
             <string>error.line</string>
             <key>settings</key>
             <dict>
+                <!-- <key>background</key> -->
+                <!-- <string>#FF0080</string> -->
                 <key>fontStyle</key>
                 <string>bold</string>
                 <key>foreground</key>
                 <string>#FF7777</string>
             </dict>
-        </dict>        
+        </dict>         
 
         <dict>
             <key>name</key>
