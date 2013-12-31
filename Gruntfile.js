@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         },
 
         exec: {
-            compile: { cmd: 'tsc test/test.ts -m commonjs'},
+            compile: { cmd: 'tsc "test/te st.ts" -m commonjs'},
         }
     });
 
@@ -34,6 +34,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-exec');
 
     // Default task(s).
-    grunt.registerTask('default', ['watch']);
+    grunt.registerTask('default', ['concat', 'exec', 'watch']);
 
 };

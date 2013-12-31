@@ -10,21 +10,28 @@
     <array>
         <dict>
             <key>match</key>
-            <string>! .*$</string>
+            <string>^Warning.*$</string>
             <key>name</key>
-            <string>error.normal</string>
-        </dict>        
+            <string>warning</string>
+        </dict>    
 
         <dict>
             <key>match</key>
-            <string>√.*$</string>
+            <string>^Aborted.*$</string>
+            <key>name</key>
+            <string>error</string>
+        </dict>     
+
+        <dict>
+            <key>match</key>
+            <string>OK|Done, without errors</string>
             <key>name</key>
             <string>success</string>
         </dict>                
 
         <dict>
             <key>match</key>
-            <string>^#.*$</string>
+            <string>^Running.*$</string>
             <key>name</key>
             <string>header</string>
         </dict>        

@@ -18,5 +18,4 @@
         "caption": "BuildErrors: Show Raw Output",
         "command": "build_errors_show_output",
     },
-
 ]

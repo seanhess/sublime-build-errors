@@ -366,6 +366,19 @@
 
         <dict>
             <key>name</key>
+            <string>Warning</string>
+            <key>scope</key>
+            <string>warning</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#FFFDBD</string>
+            </dict>
+        </dict>     
+
+
+        <dict>
+            <key>name</key>
             <string>Error Details</string>
             <key>scope</key>
             <string>error.details</string>
@@ -397,8 +410,10 @@
             <string>header</string>
             <key>settings</key>
             <dict>
+                <key>background</key>
+                <string>#5555BB</string>
                 <key>fontStyle</key>
-                <string>bold underline italic</string>
+                <string>bold underline</string>
                 <key>foreground</key>
                 <string>#F8F8F0</string>
             </dict>

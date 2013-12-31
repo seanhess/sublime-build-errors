@@ -4,18 +4,21 @@ import os
 import re
 from .be_window_manager import windows
 from .be_command import BuilderProcess
+from .be_output_panel import OutputPanel
 
 
 running_process = None
 
-
-# TODO: need a way to parse the lines and look for errors
+# - every time you save it sets the errors for clearing the next time you get a line
+# - 
 
 class BuildErrorsRunCommand(WindowCommand):
 
     def __init__(self, window):
         WindowCommand.__init__(self, window)
-        self.full_output = None
+        self.raw_panel = None
+        self.errors = None
+        self.errors_panel = None
 
     def run(self):
         self.window.show_input_panel("Please enter your build command:", "grunt", self.on_input_done, self.on_input_change, self.on_input_cancel)
@@ -32,31 +35,37 @@ class BuildErrorsRunCommand(WindowCommand):
     def run_command(self, command):
         global running_process
         stop_running_process()
+        if ("grunt" in command):
+            command += " --no-color"
         process = BuilderProcess(command, active_window_root_folder(), self.on_build_line, self.on_build_exit)
         process.run()
         running_process = process
-        self.full_output = OutputPanel(self.window, "be_full_output")
-        self.full_output.show()
-        windows.settings_for_window(self.window).panel = self.full_output
+        self.raw_panel = OutputPanel(self.window, "be_raw_panel")
+        self.raw_panel.show()
+        self.settings().raw_panel = self.raw_panel
+        self.errors = ErrorParser(self.on_error)
 
     def on_build_line(self, line):
-
-        # Better Parsing!?
-        line = line.replace("", "") # Terminal bell. I could play a sound or something?
-        line = line.replace("[39m", "")  # End of color
-        line = line.replace("[32m", " √ ") # Green
-        line = line.replace("[33m", " ! ") # Yellow
-        line = line.replace("[31m", " ! ") # Red
-        line = line.replace("[36m", " - ") # blue
-        line = line.replace("[4m", "# ") # underline
-        line = line.replace("[24m", "") # End of a line? End Underline?
-        # line = line.replace("", "") # remove any 
-
-        print("-:", line)
-        self.full_output.write(line+"\n")
+        # print("::", line)
+        line = re.sub(r'(||>> |\[\d+m)', "", line)
+        self.raw_panel.write(line+"\n")
+        self.errors.parse(line)
 
     def on_build_exit(self):
-        self.full_output.write("\nEXITED\n")
+        self.raw_panel.write("\nEXITED\n")
+
+    def settings(self):
+        return windows.settings_for_window(self.window)
+
+    def on_error(self, err):
+        self.errors_panel = OutputPanel(self.window, "be_errors_panel")
+        # write out ALL errors here
+        for err in self.errors.errors:
+            self.errors_panel.write("\n"+err.file+":"+err.text)
+        self.errors_panel.show()
+        self.settings().errors_panel = self.errors_panel
+
+
 
 
 class BuildErrorsStopCommand(WindowCommand):
@@ -66,29 +75,65 @@ class BuildErrorsStopCommand(WindowCommand):
 
 class BuildErrorsShowOutput(WindowCommand):
     def run(self):
-        panel = windows.settings_for_window(self.window).panel
+        panel = windows.settings_for_window(self.window).raw_panel
+        panel.show()
+
+class BuildErrorsShowErrors(WindowCommand):
+    def run(self):
+        panel = windows.settings_for_window(self.window).errors_panel
         panel.show()
 
 
-class OutputPanel(object):
+class ErrorParser(object):
+    def __init__(self, on_error):
+        self.errors = []
+        self.err = None
+        self.on_error = on_error
 
-    def __init__(self, window, name):
-        self.window = window
-        self.panel = window.create_output_panel(name)
-        self.name = name
-        self.panel.settings().set("color_scheme", "Packages/sublime-build-errors/theme/BuildErrors.tmTheme")
-        self.panel.set_syntax_file("Packages/sublime-build-errors/theme/BuildErrorsOutput.tmLanguage")
+    def parse(self, line):
 
-    def show(self):
-        self.window.run_command("show_panel", {"panel": "output."+self.name}) 
+        # TYPESCRIPT detection support
+        ts = re.search('^(\/.*\.ts)\((\d+),(\d+)\):\s*(.*)', line)
+        if ts:
+            err = Error()
+            err.file = ts.group(1)
+            err.line = int(ts.group(2))
+            err.column = int(ts.group(3))
+            err.text = ts.group(4)
+            self.start_error(err)
 
-    def hide(self):
-        self.window.run_command("hide_panel", {"panel": "output."+self.name})        
+        # END
+        elif "Exited with code" in line:
+            self.end_error()
 
-    def write(self, characters):
-        self.panel.set_read_only(False)
-        self.panel.run_command('append', {'characters': characters})
-        self.panel.set_read_only(True)
+        # APPEND ERROR
+        elif self.err:
+            if len(self.err.text): 
+                self.err.text += "\n"
+            self.err.text += line
+
+    def start_error(self, err):
+        self.end_error()
+        self.err = err
+        self.errors.append(err)
+
+    def end_error(self):
+        if self.err:
+            self.on_error(self.err)
+        self.err = None
+
+
+
+
+class Error(object):
+    def __init__(self):
+        self.file = None
+        self.line = None
+        self.column = None
+        self.text = None
+
+    def __repr__(self):
+        return self.file+"("+str(self.line)+","+str(self.column)+"): "+self.text
 
 def active_window_root_folder():
     window = sublime.active_window()
