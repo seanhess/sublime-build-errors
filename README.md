@@ -1,32 +1,30 @@
-- Allows you to run any terminal command in a panel. 
-- Displays the full output, 
-- Displays a list of the errors found
-- Highlight errors inline
+Sublime Build Errors
+--------------------
 
-TODO
-----
+- Allows you to run any terminal command from sublime
+- Displays the output of that command
+- If errors are found, displays them in a panel, and highlights them in the editor
 
-- specify a command to run
-- show the full output of the command in a window
-- show/hide the window
+Installation
+------------
 
-"no way to intercept a real build script"
-- set the command to run / run it in project settings
-- sublime command: run/restart the build. + key stroke
-- sublime command: show the full output
-- automatically show the errors 
-- sublime to re-show the current error output
+Go to your packages folder in Terminal.
 
-- ability to set the command to run for the build (a build script?)
-- run it.. when? when you hit build?
-- there's no way to intercept the actual build scrope
+cd Library/Application Support/Sublime Text 3/Packages
 
-Now here's the issue. When they save a file, it might update again.
+Clone this repository into that folder
 
-Simplish: start the build, grab all errors on DONE, then show again
-Harder: wait for the build to "stabilize", then show errors
-    - if there is no output for 500 ms?... eh... not really
-    - on save, reset
-    - wait... stuff .... wait  wait ... stuff
-    - each time "stuff" is hit, then erase the window and show errors?
+git clone https://github.com/seanhess/sublime-build-errors
+
+Usage
+-----
+
+Right now, everything is in `Tools -> Command Palette`. First run the following command:
+
+    BuildErrors: Run Command
+
+It will prompt you to enter a command. Edit and hit enter. It will show you the raw output, then if it encounters any errors will display the errors in a panel. 
+
+
+
 
