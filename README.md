@@ -10,11 +10,11 @@ Installation
 
 Go to your packages folder in Terminal.
 
-cd Library/Application Support/Sublime Text 3/Packages
+    cd Library/Application Support/Sublime Text 3/Packages
 
 Clone this repository into that folder
 
-git clone https://github.com/seanhess/sublime-build-errors
+    git clone https://github.com/seanhess/sublime-build-errors
 
 Usage
 -----
