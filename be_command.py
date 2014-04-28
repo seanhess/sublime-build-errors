@@ -1,5 +1,6 @@
 from threading import Thread
 from subprocess import Popen, PIPE, STDOUT
+import os
 
 # can't use communicate any more, because we want to support watch commands
 # need to be able to stream output
@@ -15,9 +16,12 @@ class BuilderProcess(object):
         self.cwd = cwd
 
     def run(self):
-        print("!! Running", self.args, self.cwd)
         kwargs = {}
-        self.process = Popen(self.args, stdin=PIPE, stdout=PIPE, stderr=STDOUT, cwd=self.cwd, **kwargs)
+        # why doesn't this work?
+        env = os.environ.copy()
+        env["PATH"] = '/usr/local/bin:/opt/local/bin:' + env["PATH"]
+        print("!! Running", self.args, self.cwd)
+        self.process = Popen(self.args, stdin=PIPE, stdout=PIPE, stderr=STDOUT, env=env, cwd=self.cwd, **kwargs)
         self.thread = Thread(target=self.read)
         self.thread.daemon = True
         self.thread.start()

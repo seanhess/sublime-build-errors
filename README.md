@@ -27,4 +27,9 @@ It will prompt you to enter a command. Edit and hit enter. It will show you the 
 
 
 
+Command Path
+------------
+
+I can't figure out how to get Sublime Text to respect your shell's PATH. Instead, I've manually set the PATH to include `/usr/local/bin` and `/opt/local/bin`
+
 
